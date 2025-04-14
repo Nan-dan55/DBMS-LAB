@@ -95,8 +95,6 @@ WHERE MV.ACT_ID IN (
     GROUP BY ACT_ID  
     HAVING COUNT(ACT_ID) > 1  
 )  
-GROUP BY M.MOV_TITLE  
-HAVING COUNT(*) > 1;
 
 -- 3. List all actors who acted in a movie before 2000 and also in a movie after 2015 (use JOINoperation).
 
