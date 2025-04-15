@@ -123,16 +123,8 @@ WHERE IAM.USN = '1BI15CS101';
 -- 4. Calculate the FinalIA (average of best two test update the corresponding table for allstudents.
 -- marks) and
 
-UPDATE IAMARKS AS I  
-INNER JOIN (  
-    SELECT USN, Subcode,  
-           AVG(LEAST(GREATEST(Test1, Test2), GREATEST(Test1, Test3), GREATEST(Test2, Test3))) AS AvgBestTest  
-    FROM IAMARKS  
-    GROUP BY USN, Subcode  
-) AS T  
-ON I.USN = T.USN  
-AND I.Subcode = T.Subcode  
-SET I.FinalIA = T.AvgBestTest;
+UPDATE IAMARKS
+SET FinalIA = (Test1 + Test2 + Test3 - LEAST(Test1, Test2, Test3)) / 2;
 
 
 -- 5. Categorize students based on the

@@ -94,7 +94,7 @@ WHERE MV.ACT_ID IN (
     FROM MOVIE_CAST  
     GROUP BY ACT_ID  
     HAVING COUNT(ACT_ID) > 1  
-)  
+);  
 
 -- 3. List all actors who acted in a movie before 2000 and also in a movie after 2015 (use JOINoperation).
 
@@ -103,6 +103,21 @@ FROM ACTOR A
 JOIN MOVIE_CAST C ON A.ACT_ID = C.ACT_ID  
 JOIN MOVIES M ON C.MOV_ID = M.MOV_ID  
 WHERE M.MOV_YEAR NOT BETWEEN 2000 AND 2015;
+
+--or to be more precise
+
+SELECT DISTINCT A.ACT_NAME
+FROM ACTOR A
+JOIN MOVIE_CAST C1 ON A.ACT_ID = C1.ACT_ID
+JOIN MOVIES M1 ON C1.MOV_ID = M1.MOV_ID
+WHERE M1.MOV_YEAR < 2000
+AND A.ACT_ID IN (
+    SELECT DISTINCT A.ACT_ID
+    FROM ACTOR A
+    JOIN MOVIE_CAST C2 ON A.ACT_ID = C2.ACT_ID
+    JOIN MOVIES M2 ON C2.MOV_ID = M2.MOV_ID
+    WHERE M2.MOV_YEAR > 2015
+);
 
 -- 4. Find the title of movies and number of stars for each movie that has at least one rating and find the highest number of stars that movie received. Sort the result by movie title.
 
